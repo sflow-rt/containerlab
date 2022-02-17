@@ -1,0 +1,16 @@
+{
+  "links": {
+    "link1": { "node1":"leaf1","port1":"eth1","node2":"spine1","port2":"eth1"},
+    "link2": { "node1":"leaf1","port1":"eth2","node2":"spine2","port2":"eth1"},
+    "link3": { "node1":"leaf2","port1":"eth1","node2":"spine1","port2":"eth2"},
+    "link4": { "node1":"leaf2","port1":"eth2","node2":"spine2","port2":"eth2"},
+    "link5": { "node1":"leaf3","port1":"eth1","node2":"spine3","port2":"eth1"},
+    "link6": { "node1":"leaf3","port1":"eth2","node2":"spine4","port2":"eth1"},
+    "link7": { "node1":"leaf4","port1":"eth1","node2":"spine3","port2":"eth2"},
+    "link8": { "node1":"leaf4","port1":"eth2","node2":"spine4","port2":"eth2"},
+    "link9": { "node1":"spine1","port1":"eth3","node2":"superspine1","port2":"eth1"},
+    "link10": { "node1":"spine2","port1":"eth3","node2":"superspine2","port2":"eth1"},
+    "link11": { "node1":"spine3","port1":"eth3","node2":"superspine1","port2":"eth2"},
+    "link12": { "node1":"spine4","port1":"eth3","node2":"superspine2","port2":"eth2"}
+  }
+}

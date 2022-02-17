@@ -1,0 +1,87 @@
+name: clos3
+mgmt:
+  network: fixedips
+  ipv4_subnet: 172.100.100.0/24
+  ipv6_subnet: 2001:172:100:100::/80
+
+topology:
+  defaults:
+    env:
+      COLLECTOR: 172.100.100.8
+  nodes:
+    leaf1:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.2
+      mgmt_ipv6: 2001:172:100:100::2
+      env:
+        LOCAL_AS: 65001
+        NEIGHBORS: eth1 eth2
+        HOSTPORT: eth3
+        HOSTNET: "172.16.1.1/24"
+      exec:
+        - touch /tmp/initialized
+    leaf2:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.3
+      mgmt_ipv6: 2001:172:100:100::3
+      env:
+        LOCAL_AS: 65002
+        NEIGHBORS: eth1 eth2
+        HOSTPORT: eth3
+        HOSTNET: "172.16.2.1/24"
+      exec:
+        - touch /tmp/initialized
+    spine1:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.4
+      mgmt_ipv6: 2001:172:100:100::4
+      env:
+        LOCAL_AS: 65003
+        NEIGHBORS: eth1 eth2
+      exec:
+        - touch /tmp/initialized
+    spine2:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.5
+      mgmt_ipv6: 2001:172:100:100::5
+      env:
+        LOCAL_AS: 65003
+        NEIGHBORS: eth1 eth2
+      exec:
+        - touch /tmp/initialized
+    h1:
+      kind: linux
+      image: sflow/clab-iperf3
+      mgmt_ipv4: 172.100.100.6
+      mgmt_ipv6: 2001:172:100:100::6
+      exec:
+        - ip addr add 172.16.1.2/24 dev eth1
+        - ip route add 172.16.2.0/24 via 172.16.1.1
+        - touch /tmp/initialized
+    h2:
+      kind: linux
+      image: sflow/clab-iperf3
+      mgmt_ipv4: 172.100.100.7
+      mgmt_ipv6: 2001:172:100:100::7
+      exec:
+        - ip addr add 172.16.2.2/24 dev eth1
+        - ip route add 172.16.1.0/24 via 172.16.2.1
+        - touch /tmp/initialized
+    sflow-rt:
+      kind: linux
+      image: sflow/prometheus
+      mgmt_ipv4: 172.100.100.8
+      mgmt_ipv6: 2001:172:100:100::8
+      ports:
+        - 8008:8008
+  links:
+    - endpoints: ["leaf1:eth1","spine1:eth1"]
+    - endpoints: ["leaf1:eth2","spine2:eth1"]
+    - endpoints: ["leaf2:eth1","spine1:eth2"]
+    - endpoints: ["leaf2:eth2","spine2:eth2"]
+    - endpoints: ["h1:eth1","leaf1:eth3"]
+    - endpoints: ["h2:eth1","leaf2:eth3"]

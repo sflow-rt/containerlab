@@ -1,0 +1,179 @@
+name: clos5
+mgmt:
+  network: fixedips
+  ipv4_subnet: 172.100.100.0/24
+  ipv6_subnet: 2001:172:100:100::/80
+
+topology:
+  defaults:
+    env:
+      COLLECTOR: 172.100.100.16
+  nodes:
+    leaf1:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.2
+      mgmt_ipv6: 2001:172:100:100::2
+      env:
+        LOCAL_AS: 65001
+        NEIGHBORS: eth1 eth2
+        HOSTPORT: eth3
+        HOSTNET: "172.16.1.1/24"
+      exec:
+        - touch /tmp/initialized
+    leaf2:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.3
+      mgmt_ipv6: 2001:172:100:100::3
+      env:
+        LOCAL_AS: 65002
+        NEIGHBORS: eth1 eth2
+        HOSTPORT: eth3
+        HOSTNET: "172.16.2.1/24"
+      exec:
+        - touch /tmp/initialized
+    leaf3:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.4
+      mgmt_ipv6: 2001:172:100:100::4
+      env:
+        LOCAL_AS: 65003
+        NEIGHBORS: eth1 eth2
+        HOSTPORT: eth3
+        HOSTNET: "172.16.3.1/24"
+      exec:
+        - touch /tmp/initialized
+    leaf4:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.5
+      mgmt_ipv6: 2001:172:100:100::5
+      env:
+        LOCAL_AS: 65004
+        NEIGHBORS: eth1 eth2
+        HOSTPORT: eth3
+        HOSTNET: "172.16.4.1/24"
+      exec:
+        - touch /tmp/initialized
+    spine1:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.6
+      mgmt_ipv6: 2001:172:100:100::6
+      env:
+        LOCAL_AS: 65005
+        NEIGHBORS: eth1 eth2 eth3
+      exec:
+        - touch /tmp/initialized
+    spine2:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.7
+      mgmt_ipv6: 2001:172:100:100::7
+      env:
+        LOCAL_AS: 65005
+        NEIGHBORS: eth1 eth2 eth3
+      exec:
+        - touch /tmp/initialized
+    spine3:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.8
+      mgmt_ipv6: 2001:172:100:100::8
+      env:
+        LOCAL_AS: 65006
+        NEIGHBORS: eth1 eth2 eth3
+      exec:
+        - touch /tmp/initialized
+    spine4:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.9
+      mgmt_ipv6: 2001:172:100:100::9
+      env:
+        LOCAL_AS: 65006
+        NEIGHBORS: eth1 eth2 eth3
+      exec:
+        - touch /tmp/initialized
+    superspine1:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.10
+      mgmt_ipv6: 2001:172:100:100::10
+      env:
+        LOCAL_AS: 65007
+        NEIGHBORS: eth1 eth2
+      exec:
+        - touch /tmp/initialized
+    superspine2:
+      kind: linux
+      image: sflow/clab-frr
+      mgmt_ipv4: 172.100.100.11
+      mgmt_ipv6: 2001:172:100:100::11
+      env:
+        LOCAL_AS: 65007
+        NEIGHBORS: eth1 eth2
+      exec:
+        - touch /tmp/initialized 
+    h1:
+      kind: linux
+      image: sflow/clab-iperf3
+      mgmt_ipv4: 172.100.100.12
+      mgmt_ipv6: 2001:172:100:100::12
+      exec:
+        - ip addr add 172.16.1.2/24 dev eth1
+        - ip route add 172.16.0.0/16 via 172.16.1.1
+        - touch /tmp/initialized
+    h2:
+      kind: linux
+      image: sflow/clab-iperf3
+      mgmt_ipv4: 172.100.100.13
+      mgmt_ipv6: 2001:172:100:100::13
+      exec:
+        - ip addr add 172.16.2.2/24 dev eth1
+        - ip route add 172.16.0.0/16 via 172.16.2.1
+        - touch /tmp/initialized
+    h3:
+      kind: linux
+      image: sflow/clab-iperf3
+      mgmt_ipv4: 172.100.100.14
+      mgmt_ipv6: 2001:172:100:100::14
+      exec:
+        - ip addr add 172.16.3.2/24 dev eth1
+        - ip route add 172.16.0.0/16 via 172.16.3.1
+        - touch /tmp/initialized
+    h4:
+      kind: linux
+      image: sflow/clab-iperf3
+      mgmt_ipv4: 172.100.100.15
+      mgmt_ipv6: 2001:172:100:100::15
+      exec:
+        - ip addr add 172.16.4.2/24 dev eth1
+        - ip route add 172.16.0.0/16 via 172.16.4.1
+        - touch /tmp/initialized
+    sflow-rt:
+      kind: linux
+      image: sflow/prometheus
+      mgmt_ipv4: 172.100.100.16
+      mgmt_ipv6: 2001:172:100:100::16
+      ports:
+        - 8008:8008
+  links:
+    - endpoints: ["leaf1:eth1","spine1:eth1"]
+    - endpoints: ["leaf1:eth2","spine2:eth1"]
+    - endpoints: ["leaf2:eth1","spine1:eth2"]
+    - endpoints: ["leaf2:eth2","spine2:eth2"]
+    - endpoints: ["leaf3:eth1","spine3:eth1"]
+    - endpoints: ["leaf3:eth2","spine4:eth1"]
+    - endpoints: ["leaf4:eth1","spine3:eth2"]
+    - endpoints: ["leaf4:eth2","spine4:eth2"]
+    - endpoints: ["spine1:eth3","superspine1:eth1"]
+    - endpoints: ["spine2:eth3","superspine2:eth1"]
+    - endpoints: ["spine3:eth3","superspine1:eth2"]
+    - endpoints: ["spine4:eth3","superspine2:eth2"] 
+    - endpoints: ["h1:eth1","leaf1:eth3"]
+    - endpoints: ["h2:eth1","leaf2:eth3"]
+    - endpoints: ["h3:eth1","leaf3:eth3"]
+    - endpoints: ["h4:eth1","leaf4:eth3"]
