@@ -125,7 +125,6 @@ topology:
       exec:
         - ip addr add 172.16.1.2/24 dev eth1
         - ip route add 172.16.0.0/16 via 172.16.1.1
-        - touch /tmp/initialized
     h2:
       kind: linux
       image: sflow/clab-iperf3
@@ -134,7 +133,6 @@ topology:
       exec:
         - ip addr add 172.16.2.2/24 dev eth1
         - ip route add 172.16.0.0/16 via 172.16.2.1
-        - touch /tmp/initialized
     h3:
       kind: linux
       image: sflow/clab-iperf3
@@ -143,7 +141,6 @@ topology:
       exec:
         - ip addr add 172.16.3.2/24 dev eth1
         - ip route add 172.16.0.0/16 via 172.16.3.1
-        - touch /tmp/initialized
     h4:
       kind: linux
       image: sflow/clab-iperf3
@@ -152,7 +149,6 @@ topology:
       exec:
         - ip addr add 172.16.4.2/24 dev eth1
         - ip route add 172.16.0.0/16 via 172.16.4.1
-        - touch /tmp/initialized
     sflow-rt:
       kind: linux
       image: sflow/prometheus

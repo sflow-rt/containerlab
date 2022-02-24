@@ -1,4 +1,4 @@
-name: clos3
+name: evpn3
 mgmt:
   network: fixedips
   ipv4_subnet: 172.100.100.0/24
@@ -18,7 +18,8 @@ topology:
         LOCAL_AS: 65001
         NEIGHBORS: eth1 eth2
         HOSTPORT: eth3
-        HOSTNET: "172.16.1.1/24"
+        HOSTNET: evpn
+        EVPNSRC: "192.168.1.1" 
       exec:
         - touch /tmp/initialized
     leaf2:
@@ -30,7 +31,8 @@ topology:
         LOCAL_AS: 65002
         NEIGHBORS: eth1 eth2
         HOSTPORT: eth3
-        HOSTNET: "172.16.2.1/24"
+        HOSTNET: evpn
+        EVPNSRC: "192.168.1.2"
       exec:
         - touch /tmp/initialized
     spine1:
@@ -41,6 +43,7 @@ topology:
       env:
         LOCAL_AS: 65003
         NEIGHBORS: eth1 eth2
+        HOSTNET: evpn
       exec:
         - touch /tmp/initialized
     spine2:
@@ -51,6 +54,7 @@ topology:
       env:
         LOCAL_AS: 65003
         NEIGHBORS: eth1 eth2
+        HOSTNET: evpn
       exec:
         - touch /tmp/initialized
     h1:
@@ -59,16 +63,16 @@ topology:
       mgmt_ipv4: 172.100.100.6
       mgmt_ipv6: 2001:172:100:100::6
       exec:
-        - ip addr add 172.16.1.2/24 dev eth1
-        - ip route add 172.16.2.0/24 via 172.16.1.1
+        - ip link set dev eth1 mtu 1500
+        - ip addr add 172.16.10.1/24 dev eth1
     h2:
       kind: linux
       image: sflow/clab-iperf3
       mgmt_ipv4: 172.100.100.7
       mgmt_ipv6: 2001:172:100:100::7
       exec:
-        - ip addr add 172.16.2.2/24 dev eth1
-        - ip route add 172.16.1.0/24 via 172.16.2.1
+        - ip link set dev eth1 mtu 1500
+        - ip addr add 172.16.10.2/24 dev eth1
     sflow-rt:
       kind: linux
       image: sflow/prometheus
