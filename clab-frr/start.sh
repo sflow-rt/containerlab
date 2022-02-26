@@ -12,6 +12,8 @@ CONF='/etc/hsflowd.conf'
 
 printf "sflow {\n" > $CONF
 printf " sampling=$SAMPLING\n" >> $CONF
+printf " sampling.1G=$SAMPLING\n" >> $CONF
+printf " sampling.10G=$SAMPLING\n" >> $CONF
 printf " polling=$POLLING\n" >> $CONF
 printf " collector { ip=$COLLECTOR }\n" >> $CONF
 for dev in ${NEIGHBORS}
