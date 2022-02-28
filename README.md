@@ -28,3 +28,16 @@ Generate traffic between `h1` and `h2`:
 `docker exec -it clab-clos3-h1 iperf3 -c 172.16.2.2`
 
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
+
+# EVPN Topology
+<img src="evpn3.png" width="600">
+
+Deploy EVPN topology:
+
+`containerlab deploy -t evpn3.yml`
+
+Generate traffic between `h1` and `h2`:
+
+`docker exec -it clab-evpn3-h1 iperf3 -c 172.16.10.2`
+
+Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
