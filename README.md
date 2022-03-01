@@ -43,3 +43,16 @@ Generate traffic between `h1` and `h2`:
 `docker exec -it clab-evpn3-h1 iperf3 -c 172.16.10.2`
 
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
+
+# DDoS Topology
+![](ddos.png)
+
+Deploy DDOS topology:
+
+`containerlab deploy -t ddos.yml`
+
+Simulate DDoS attack against `victim`:
+
+`docker exec -it clab-ddos-attacker hping3 --flood --udp -k -a 198.51.100.1 -s 53 192.0.2.129`
+
+Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
