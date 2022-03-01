@@ -4,9 +4,6 @@ mgmt:
   ipv4_subnet: 172.100.100.0/24
   ipv6_subnet: 2001:172:100:100::/80
 topology:
-  defaults:
-    env:                      
-      COLLECTOR: 172.100.100.6
   nodes:
     sp-router:
       kind: linux
@@ -33,6 +30,7 @@ topology:
         HOSTPORT: eth2
         HOSTNET: "192.0.2.1/24"
         CTLASN: 64497
+        COLLECTOR: 172.100.100.6
       exec:                         
         - touch /tmp/initialized
     attacker:
