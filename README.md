@@ -3,6 +3,8 @@ Experiment with real-time network telemetry using [containerlab](https://contain
 
 [Real-time telemetry from a 5 stage Clos fabric](https://blog.sflow.com/2022/02/real-time-telemetry-from-5-stage-clos.html)
 
+[Topology aware fabric analytics](https://blog.sflow.com/2022/02/topology-aware-fabric-analytics.html)
+
 ## 5 Stage Clos Topology
 ![](clos5.png)
 

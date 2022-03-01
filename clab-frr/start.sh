@@ -1,12 +1,14 @@
 #!/bin/sh
 
-COLLECTOR="${COLLECTOR:-172.20.20.1}"
+COLLECTOR="${COLLECTOR:-none}"
 POLLING="${POLLING:-30}"
 SAMPLING="${SAMPLING:-1000}"
 NEIGHBORS="${NEIGHBORS:-eth1 eth2}"
 HOSTPORT="${HOSTPORT:-eth3}"
 HOSTNET="${HOSTNET:-none}"
 EVPNSRC="${EVPNSRC:-none}"
+CTLRASN="${CTLASN:-none}"
+FLOWSPEC="${FLOWSPEC:-no}"
 
 CONF='/etc/hsflowd.conf'
 
@@ -15,10 +17,12 @@ printf " sampling=$SAMPLING\n" >> $CONF
 printf " sampling.1G=$SAMPLING\n" >> $CONF
 printf " sampling.10G=$SAMPLING\n" >> $CONF
 printf " polling=$POLLING\n" >> $CONF
-printf " collector { ip=$COLLECTOR }\n" >> $CONF
+if [ "$COLLECTOR" != "none" ]; then
+  printf " collector { ip=$COLLECTOR }\n" >> $CONF
+fi
 for dev in ${NEIGHBORS}
 do
- printf " pcap { dev=$dev }\n" >> $CONF
+  printf " pcap { dev=$dev }\n" >> $CONF
 done
 if [ "$HOSTNET" != "none" ]; then
   printf " pcap { dev=$HOSTPORT }\n" >> $CONF
@@ -32,8 +36,22 @@ LOCAL_AS="${LOCAL_AS:-65000}"
 sed -i "s/LOCAL_AS/$LOCAL_AS/g" $BGP
 for dev in ${NEIGHBORS}
 do
- printf " neighbor $dev interface peer-group fabric\n" >> $BGP
+  printf " neighbor $dev interface peer-group fabric\n" >> $BGP
 done
+if [ "$CTLASN" != "none" ]; then
+  printf " neighbor $COLLECTOR remote-as $CTLASN\n" >> $BGP
+  printf " neighbor $COLLECTOR port 1179\n" >> $BGP
+  printf " neighbor $COLLECTOR timers connect 10\n" >> $BGP
+  printf " !\n" >> $BGP
+fi
+if [ "$FLOWSPEC" == "yes" ]; then
+  printf " address-family ipv4 flowspec\n" >> $BGP
+  printf "  neighbor fabric activate\n" >> $BGP
+  if [ "$CTLASN" != "none" ]; then 
+    printf "  neighbor $COLLECTOR activate\n" >> $BGP
+  fi
+  printf " exit-address-family\n" >> $BGP
+fi
 printf " !\n" >> $BGP
 
 if [ "$HOSTNET" == "evpn" ]; then 
@@ -89,5 +107,7 @@ if [ "$HOSTNET" == "evpn" ] && [ "$EVPNSRC" != "none" ]; then
   brctl addif br10 $HOSTPORT
 fi
 
-/usr/sbin/hsflowd
+if [ "$COLLECTOR" != "none" ]; then
+  /usr/sbin/hsflowd
+fi
 exec /usr/lib/frr/docker-start
