@@ -61,9 +61,27 @@ topology:
           -Dddos_protect.router=172.100.100.3
           -Dddos_protect.group.local=192.0.2.0/24
           -Dddos_protect.mode=automatic
+          -Dddos_protect.icmp_flood.action=filter
+          -Dddos_protect.icmp_flood.threshold=10000
+          -Dddos_protect.icmp_flood.timeout=2
+          -Dddos_protect.ip_flood.action=filter
+          -Dddos_protect.ip_flood.threshold=10000
+          -Dddos_protect.ip_flood.timeout=2
+          -Dddos_protect.ip_fragmentation.action=filter
+          -Dddos_protect.ip_fragmentation.threshold=10000
+          -Dddos_protect.ip_fragmentation.timeout=2
+          -Dddos_protect.tcp_amplification.action=filter
+          -Dddos_protect.tcp_amplification.threshold=10000
+          -Dddos_protect.tcp_amplification.timeout=2
+          -Dddos_protect.tcp_flood.action=filter
+          -Dddos_protect.tcp_flood.threshold=10000
+          -Dddos_protect.tcp_flood.timeout=2
           -Dddos_protect.udp_amplification.action=filter
-          -Dddos_protect.udp_amplification.threshold=100000
+          -Dddos_protect.udp_amplification.threshold=10000
           -Dddos_protect.udp_amplification.timeout=2
+          -Dddos_protect.udp_flood.action=filter
+          -Dddos_protect.udp_flood.threshold=10000
+          -Dddos_protect.udp_flood.timeout=2
       ports:
         - 8008:8008
   links:
