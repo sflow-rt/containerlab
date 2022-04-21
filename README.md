@@ -5,6 +5,7 @@ Experiment with real-time network telemetry using [containerlab](https://contain
 * [Topology aware fabric analytics](https://blog.sflow.com/2022/02/topology-aware-fabric-analytics.html)
 * [Real-time EVPN fabric visibility](https://blog.sflow.com/2022/03/real-time-evpn-fabric-visibility.html)
 * [Containerlab DDoS testbed](https://blog.sflow.com/2022/03/containerlab-ddos-testbed.html)
+* [DDoS attacks and BGP Flowspec responses](https://blog.sflow.com/2022/03/ddos-attacks-and-bgp-flowspec-responses.html)
 
 ## 5 Stage Clos Topology
 ![](clos5.png)
