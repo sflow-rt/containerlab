@@ -6,6 +6,7 @@ Experiment with real-time network telemetry using [containerlab](https://contain
 * [Real-time EVPN fabric visibility](https://blog.sflow.com/2022/03/real-time-evpn-fabric-visibility.html)
 * [Containerlab DDoS testbed](https://blog.sflow.com/2022/03/containerlab-ddos-testbed.html)
 * [DDoS attacks and BGP Flowspec responses](https://blog.sflow.com/2022/03/ddos-attacks-and-bgp-flowspec-responses.html)
+* [BGP Remotely Triggered Blackhole (RTBH)](https://blog.sflow.com/2022/04/bgp-remotely-triggered-blackhole-rtbh.html)
 
 ## 5 Stage Clos Topology
 ![](clos5.png)
