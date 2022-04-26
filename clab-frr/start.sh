@@ -9,6 +9,7 @@ HOSTNET="${HOSTNET:-none}"
 EVPNSRC="${EVPNSRC:-none}"
 CTLRASN="${CTLASN:-none}"
 FLOWSPEC="${FLOWSPEC:-no}"
+RTBH="${RTBH:-none}"
 
 CONF='/etc/hsflowd.conf'
 
@@ -31,9 +32,13 @@ printf "}\n" >> $CONF
 
 BGP=/etc/frr/bgpd.conf
 ZEBRA=/etc/frr/zebra.conf
+STATICD=/etc/frr/staticd.conf
 LOCAL_ADDR=`hostname -i`
 LOCAL_AS="${LOCAL_AS:-65000}"
 sed -i "s/LOCAL_AS/$LOCAL_AS/g" $BGP
+if [ "$RTBH" != "none" ]; then
+  printf " neighbor fabric ebgp-multihop 255\n" >> $BGP
+fi
 for dev in ${NEIGHBORS}
 do
   printf " neighbor $dev interface peer-group fabric\n" >> $BGP
@@ -53,7 +58,6 @@ if [ "$FLOWSPEC" == "yes" ]; then
   printf " exit-address-family\n" >> $BGP
 fi
 printf " !\n" >> $BGP
-
 if [ "$HOSTNET" == "evpn" ]; then 
   printf " address-family l2vpn evpn\n" >> $BGP
   printf "  neighbor fabric activate\n" >> $BGP
@@ -74,6 +78,9 @@ else
   if [ "$HOSTNET" != "none" ]; then
     printf " address-family ipv4 unicast\n" >> $BGP
     printf "  redistribute connected route-map HOST_ROUTES\n" >> $BGP
+    if [ "$RTBH" != "none" ]; then
+      printf "  neighbor fabric route-map RTBH in\n" >> $BGP
+    fi
     printf " exit-address-family\n" >> $BGP
     printf "!\n" >> $BGP
     printf "exit\n" >> $BGP
@@ -82,12 +89,25 @@ else
     printf "  match interface $HOSTPORT\n" >> $BGP
     printf "exit\n" >> $BGP
     printf "!\n" >> $BGP
-
     printf "interface $HOSTPORT\n" >> $ZEBRA
     printf " ip address $HOSTNET\n" >> $ZEBRA
     printf "exit\n" >> $ZEBRA
     printf "!\n" >> $ZEBRA
   fi
+fi
+if [ "$RTBH" != "none" ]; then
+  printf "bgp community-list standard BLACKHOLE seq 5 permit blackhole\n" >> $BGP
+  printf "!\n" >> $BGP
+  printf "route-map RTBH permit 10\n" >> $BGP
+  printf "  match community BLACKHOLE\n" >> $BGP
+  printf "  set ip next-hop $RTBH\n" >> $BGP
+  printf "exit\n" >> $BGP
+  printf "!\n" >> $BGP
+  printf "route-map RTBH permit 20\n" >> $BGP
+  printf "exit\n" >> $BGP
+  printf "!\n" >> $BGP
+  printf "ip route $RTBH/32 Null0\n" >> $STATICD
+  printf "!\n" >> $STATICD
 fi
 
 chown -R frr:frr /etc/frr

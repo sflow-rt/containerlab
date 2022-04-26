@@ -14,6 +14,7 @@ topology:
         LOCAL_AS: 64496
         NEIGHBORS: eth1 
         FLOWSPEC: yes
+        RTBH: 203.0.113.2
         HOSTPORT: eth2
         HOSTNET: "198.51.100.1/24"
       exec:
@@ -57,6 +58,7 @@ topology:
       env:
         RTPROP: >
           -Dddos_protect.as=64497
+          -Dddos_protect.nexthop=203.0.113.2
           -Dddos_protect.enable.flowspec=yes
           -Dddos_protect.router=172.100.100.3
           -Dddos_protect.group.local=192.0.2.0/24
