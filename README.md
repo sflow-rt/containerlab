@@ -59,3 +59,16 @@ Simulate DDoS attack against `victim`:
 `docker exec -it clab-ddos-attacker hping3 --flood --udp -k -a 198.51.100.1 -s 53 192.0.2.129`
 
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
+
+# Nokia SR Linux
+![](srlinux.png)
+
+Deploy SR Linux topology:
+
+`containerlab deploy -t srlinux.yml`
+
+Simulate traffic:
+
+`docker exec -it clab-srlinux-h1 iperf3 -c 172.16.2.2`
+
+Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
