@@ -83,6 +83,11 @@ else
     fi
     printf " exit-address-family\n" >> $BGP
     printf "!\n" >> $BGP
+    printf " address-family ipv6 unicast\n" >> $BGP
+    printf "  redistribute connected route-map HOST_ROUTES\n" >> $BGP
+    printf "  neighbor fabric activate\n" >> $BGP
+    printf " exit-address-family\n" >> $BGP
+    printf "!\n" >> $BGP
     printf "exit\n" >> $BGP
     printf "!\n" >> $BGP
     printf "route-map HOST_ROUTES permit 10\n" >> $BGP
@@ -91,8 +96,18 @@ else
     printf "!\n" >> $BGP
     printf "interface $HOSTPORT\n" >> $ZEBRA
     printf " ip address $HOSTNET\n" >> $ZEBRA
+    if [ "HOSTNET6" != "none" ]; then
+      printf " ipv6 address $HOSTNET6\n" >> $ZEBRA
+    fi
     printf "exit\n" >> $ZEBRA
     printf "!\n" >> $ZEBRA
+  else
+    printf " address-family ipv6 unicast\n" >> $BGP
+    printf "   neighbor fabric activate\n" >> $BGP
+    printf " exit-address-family\n" >> $BGP
+    printf "!\n" >> $BGP
+    printf "exit\n" >> $BGP
+    printf "!\n" >> $BGP
   fi
 fi
 if [ "$RTBH" != "none" ]; then
@@ -113,6 +128,7 @@ fi
 chown -R frr:frr /etc/frr
 
 sysctl -w net.ipv4.fib_multipath_hash_policy=1
+sysctl -w net.ipv6.conf.all.forwarding=1
 
 while [ ! -f /tmp/initialized ]; do sleep 1; done
 

@@ -1,4 +1,4 @@
-FROM alpine:3.13 as build
+FROM alpine:3.15 as build
 RUN apk --update add \
       build-base \
       gcc \
@@ -10,7 +10,7 @@ RUN apk --update add \
  && make FEATURES="PCAP" \
  && make install
 
-FROM frrouting/frr:v8.2.2
+FROM frrouting/frr:v8.4.0
 LABEL maintainer="InMon Corp. https://inmon.com"
 LABEL description="FRR and Host sFlow agent for CONTAINERlab"
 LABEL url=https://hub.docker.com/r/sflow/clab-frr

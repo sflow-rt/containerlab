@@ -19,6 +19,7 @@ topology:
         NEIGHBORS: eth1 eth2
         HOSTPORT: eth3
         HOSTNET: "172.16.1.1/24"
+        HOSTNET6: "2001:172:16:1::1/64"
       exec:
         - touch /tmp/initialized
     leaf2:
@@ -31,6 +32,7 @@ topology:
         NEIGHBORS: eth1 eth2
         HOSTPORT: eth3
         HOSTNET: "172.16.2.1/24"
+        HOSTNET6: "2001:172:16:2::1/64"
       exec:
         - touch /tmp/initialized
     leaf3:
@@ -43,6 +45,7 @@ topology:
         NEIGHBORS: eth1 eth2
         HOSTPORT: eth3
         HOSTNET: "172.16.3.1/24"
+        HOSTNET6: "2001:172:16:3::1/64"
       exec:
         - touch /tmp/initialized
     leaf4:
@@ -55,6 +58,7 @@ topology:
         NEIGHBORS: eth1 eth2
         HOSTPORT: eth3
         HOSTNET: "172.16.4.1/24"
+        HOSTNET6: "2001:172:16:4::1/64"
       exec:
         - touch /tmp/initialized
     spine1:
@@ -125,6 +129,8 @@ topology:
       exec:
         - ip addr add 172.16.1.2/24 dev eth1
         - ip route add 172.16.0.0/16 via 172.16.1.1
+        - ip addr add 2001:172:16:1::2/64 dev eth1
+        - ip route add 2001:172:16::/48 via 2001:172:16:1::1
     h2:
       kind: linux
       image: sflow/clab-iperf3
@@ -133,6 +139,8 @@ topology:
       exec:
         - ip addr add 172.16.2.2/24 dev eth1
         - ip route add 172.16.0.0/16 via 172.16.2.1
+        - ip addr add 2001:172:16:2::2/64 dev eth1
+        - ip route add 2001:172:16::/48 via 2001:172:16:2::1
     h3:
       kind: linux
       image: sflow/clab-iperf3
@@ -141,6 +149,8 @@ topology:
       exec:
         - ip addr add 172.16.3.2/24 dev eth1
         - ip route add 172.16.0.0/16 via 172.16.3.1
+        - ip addr add 2001:172:16:3::2/64 dev eth1
+        - ip route add 2001:172:16::/48 via 2001:172:16:3::1
     h4:
       kind: linux
       image: sflow/clab-iperf3
@@ -149,6 +159,8 @@ topology:
       exec:
         - ip addr add 172.16.4.2/24 dev eth1
         - ip route add 172.16.0.0/16 via 172.16.4.1
+        - ip addr add 2001:172:16:4::2/64 dev eth1
+        - ip route add 2001:172:16::/48 via 2001:172:16:4::1
     sflow-rt:
       kind: linux
       image: sflow/prometheus
