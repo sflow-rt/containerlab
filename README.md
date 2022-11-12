@@ -20,6 +20,8 @@ Generate traffic between `h1` and `h4`:
 
 `docker exec -it clab-clos5-h1 iperf3 -c 172.16.4.2`
 
+`docker exec -it clab-clos5-h1 iperf3 -c 2001:172:16:4::2`
+
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
 
 ## 3 Stage Clos Topology
@@ -33,6 +35,8 @@ Generate traffic between `h1` and `h2`:
 
 `docker exec -it clab-clos3-h1 iperf3 -c 172.16.2.2`
 
+`docker exec -it clab-clos3-h1 iperf3 -c 2001:172:16:2::2`
+
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
 
 # EVPN Topology
@@ -45,6 +49,8 @@ Deploy EVPN topology:
 Generate traffic between `h1` and `h2`:
 
 `docker exec -it clab-evpn3-h1 iperf3 -c 172.16.10.2`
+
+`docker exec -it clab-evpn3-h1 iperf3 -c 2001:172:16:10::2`
 
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
 
