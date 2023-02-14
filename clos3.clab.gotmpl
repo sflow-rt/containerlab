@@ -1,0 +1,62 @@
+name: clos3
+mgmt:
+  network: fixedips
+  ipv4_subnet: 172.100.100.0/24
+  ipv6_subnet: 2001:172:100:100::/80
+topology:
+  defaults:
+    kind: linux
+    env:
+      COLLECTOR: 172.100.100.{{ add $.spines.num $.leaves.num $.leaves.num 2 }}
+  nodes:
+{{- range $spineIndex := seq 1 $.spines.num }}
+    spine{{ $spineIndex }}:
+        image: sflow/clab-frr  
+        mgmt_ipv4: 172.100.100.{{ add $spineIndex 1 }}      
+        mgmt_ipv6: 2001:172:100:100::{{ add $spineIndex 1 }}
+        env:
+            LOCAL_AS: {{ add 65000 $spineIndex }}
+            NEIGHBORS:{{- range $leafIndex := seq 1 $.leaves.num }} eth{{ $leafIndex }}{{- end }}
+        exec:
+            - touch /tmp/initialized
+{{- end }}
+{{- range $leafIndex := seq 1 $.leaves.num }}
+    leaf{{ $leafIndex }}:
+        image: sflow/clab-frr
+        mgmt_ipv4: 172.100.100.{{ add $.spines.num $leafIndex 1 }}
+        mgmt_ipv6: 2001:172:100:100::{{ add $.spines.num $leafIndex 1 }}
+        env:
+            LOCAL_AS: {{ add 65000 $.spines.num $leafIndex }}
+            NEIGHBORS:{{- range $spineIndex := seq 1 $.spines.num }} eth{{ $spineIndex}}{{- end }}
+            HOSTPORT: eth{{ add $.spines.num 1 }}
+            HOSTNET: 172.16.{{ $leafIndex }}.1/24
+            HOSTNET6: 2001:172:16:{{ $leafIndex }}::1
+        exec:                                
+            - touch /tmp/initialized
+{{- end }}
+{{- range $leafIndex := seq 1 $.leaves.num }}
+    h{{ $leafIndex }}:   
+        image: sflow/clab-iperf3
+        mgmt_ipv4: 172.100.100.{{ add $.spines.num $.leaves.num $leafIndex 1 }}
+        mgmt_ipv6: 2001:172:100:100::{{ add $.spines.num $.leaves.num $leafIndex 1 }}
+        exec:
+            - ip addr add 172.16.{{ $leafIndex }}.2/24 dev eth1
+            - ip route add 172.16.0.0/16 via 172.16.{{ $leafIndex }}.1
+            - ip addr add 2001:172:16:{{ $leafIndex }}::2/64 dev eth1
+            - ip route add 2001:172:16::/48 via 2001:172:16:{{ $leafIndex }}::1             
+{{- end }}
+    sflow-rt:
+        image: sflow/prometheus
+        mgmt_ipv4: 172.100.100.{{ add $.spines.num $.leaves.num $.leaves.num 2 }}
+        mgmt_ipv6: 2001:172:100:100::{{ add $.spines.num $.leaves.num $.leaves.num 2 }}
+        ports:
+            - 8008:8008
+  links:
+{{- range $spineIndex := seq 1 $.spines.num }}
+  {{- range $leafIndex := seq 1 $.leaves.num }}
+    - endpoints: ["spine{{ $spineIndex }}:eth{{ $leafIndex }}", "leaf{{ $leafIndex }}:eth{{ $spineIndex }}"]
+  {{- end }}
+{{- end }}
+{{- range $leafIndex := seq 1 $.leaves.num }}
+    - endpoints: ["leaf{{ $leafIndex }}:eth{{ add $.spines.num 1 }}", "h{{ $leafIndex }}:eth1"]
+{{- end }}
