@@ -9,29 +9,29 @@ topology:
     env:
       COLLECTOR: 172.100.100.{{ add $.spines.num $.leaves.num $.leaves.num 2 }}
   nodes:
-{{- range $spineIndex := seq 1 $.spines.num }}
-    spine{{ $spineIndex }}:
-        image: sflow/clab-frr  
-        mgmt_ipv4: 172.100.100.{{ add $spineIndex 1 }}      
-        mgmt_ipv6: 2001:172:100:100::{{ add $spineIndex 1 }}
-        env:
-            LOCAL_AS: {{ add 65000 $spineIndex }}
-            NEIGHBORS:{{- range $leafIndex := seq 1 $.leaves.num }} eth{{ $leafIndex }}{{- end }}
-        exec:
-            - touch /tmp/initialized
-{{- end }}
 {{- range $leafIndex := seq 1 $.leaves.num }}
     leaf{{ $leafIndex }}:
         image: sflow/clab-frr
-        mgmt_ipv4: 172.100.100.{{ add $.spines.num $leafIndex 1 }}
-        mgmt_ipv6: 2001:172:100:100::{{ add $.spines.num $leafIndex 1 }}
+        mgmt_ipv4: 172.100.100.{{ add $leafIndex 1 }}
+        mgmt_ipv6: 2001:172:100:100::{{ add $leafIndex 1 }}
         env:
-            LOCAL_AS: {{ add 65000 $.spines.num $leafIndex }}
+            LOCAL_AS: {{ add 65000 $leafIndex }}
             NEIGHBORS:{{- range $spineIndex := seq 1 $.spines.num }} eth{{ $spineIndex}}{{- end }}
             HOSTPORT: eth{{ add $.spines.num 1 }}
             HOSTNET: 172.16.{{ $leafIndex }}.1/24
-            HOSTNET6: 2001:172:16:{{ $leafIndex }}::1
-        exec:                                
+            HOSTNET6: 2001:172:16:{{ $leafIndex }}::1/64
+        exec:
+            - touch /tmp/initialized
+{{- end }}
+{{- range $spineIndex := seq 1 $.spines.num }}
+    spine{{ $spineIndex }}:
+        image: sflow/clab-frr  
+        mgmt_ipv4: 172.100.100.{{ add $.leaves.num $spineIndex 1 }}      
+        mgmt_ipv6: 2001:172:100:100::{{ add $.leaves.num $spineIndex 1 }}
+        env:
+            LOCAL_AS: {{ add 65000 $.leaves.num 1 }}
+            NEIGHBORS:{{- range $leafIndex := seq 1 $.leaves.num }} eth{{ $leafIndex }}{{- end }}
+        exec:
             - touch /tmp/initialized
 {{- end }}
 {{- range $leafIndex := seq 1 $.leaves.num }}
