@@ -1,4 +1,4 @@
-FROM alpine:3.15
+FROM alpine:3.17
 LABEL maintainer="InMon Corp. https://inmon.com"
 LABEL description="iperf3 for CONTAINERlab"
 LABEL url=https://hub.docker.com/r/sflow/clab-iperf3
