@@ -1,8 +1,8 @@
 name: evpn3
 mgmt:
   network: fixedips
-  ipv4_subnet: 172.100.100.0/24
-  ipv6_subnet: 2001:172:100:100::/80
+  ipv4-subnet: 172.100.100.0/24
+  ipv6-subnet: 2001:172:100:100::/80
 
 topology:
   defaults:
@@ -12,8 +12,8 @@ topology:
     leaf1:
       kind: linux
       image: sflow/clab-frr
-      mgmt_ipv4: 172.100.100.2
-      mgmt_ipv6: 2001:172:100:100::2
+      mgmt-ipv4: 172.100.100.2
+      mgmt-ipv6: 2001:172:100:100::2
       env:
         LOCAL_AS: 65001
         NEIGHBORS: eth1 eth2
@@ -25,8 +25,8 @@ topology:
     leaf2:
       kind: linux
       image: sflow/clab-frr
-      mgmt_ipv4: 172.100.100.3
-      mgmt_ipv6: 2001:172:100:100::3
+      mgmt-ipv4: 172.100.100.3
+      mgmt-ipv6: 2001:172:100:100::3
       env:
         LOCAL_AS: 65002
         NEIGHBORS: eth1 eth2
@@ -38,8 +38,8 @@ topology:
     spine1:
       kind: linux
       image: sflow/clab-frr
-      mgmt_ipv4: 172.100.100.4
-      mgmt_ipv6: 2001:172:100:100::4
+      mgmt-ipv4: 172.100.100.4
+      mgmt-ipv6: 2001:172:100:100::4
       env:
         LOCAL_AS: 65003
         NEIGHBORS: eth1 eth2
@@ -49,8 +49,8 @@ topology:
     spine2:
       kind: linux
       image: sflow/clab-frr
-      mgmt_ipv4: 172.100.100.5
-      mgmt_ipv6: 2001:172:100:100::5
+      mgmt-ipv4: 172.100.100.5
+      mgmt-ipv6: 2001:172:100:100::5
       env:
         LOCAL_AS: 65003
         NEIGHBORS: eth1 eth2
@@ -60,8 +60,8 @@ topology:
     h1:
       kind: linux
       image: sflow/clab-iperf3
-      mgmt_ipv4: 172.100.100.6
-      mgmt_ipv6: 2001:172:100:100::6
+      mgmt-ipv4: 172.100.100.6
+      mgmt-ipv6: 2001:172:100:100::6
       exec:
         - ip link set dev eth1 mtu 1500
         - ip addr add 172.16.10.1/24 dev eth1
@@ -69,8 +69,8 @@ topology:
     h2:
       kind: linux
       image: sflow/clab-iperf3
-      mgmt_ipv4: 172.100.100.7
-      mgmt_ipv6: 2001:172:100:100::7
+      mgmt-ipv4: 172.100.100.7
+      mgmt-ipv6: 2001:172:100:100::7
       exec:
         - ip link set dev eth1 mtu 1500
         - ip addr add 172.16.10.2/24 dev eth1
@@ -78,8 +78,8 @@ topology:
     sflow-rt:
       kind: linux
       image: sflow/prometheus
-      mgmt_ipv4: 172.100.100.8
-      mgmt_ipv6: 2001:172:100:100::8
+      mgmt-ipv4: 172.100.100.8
+      mgmt-ipv6: 2001:172:100:100::8
       ports:
         - 8008:8008
   links:

@@ -1,15 +1,15 @@
 name: ddos
 mgmt:
   network: fixedips
-  ipv4_subnet: 172.100.100.0/24
-  ipv6_subnet: 2001:172:100:100::/80
+  ipv4-subnet: 172.100.100.0/24
+  ipv6-subnet: 2001:172:100:100::/80
 topology:
   nodes:
     sp-router:
       kind: linux
       image: sflow/clab-frr
-      mgmt_ipv4: 172.100.100.2
-      mgmt_ipv6: 2001:172:100:100::2
+      mgmt-ipv4: 172.100.100.2
+      mgmt-ipv6: 2001:172:100:100::2
       env:
         LOCAL_AS: 64496
         NEIGHBORS: eth1 
@@ -22,8 +22,8 @@ topology:
     ce-router:
       kind: linux
       image: sflow/clab-frr
-      mgmt_ipv4: 172.100.100.3      
-      mgmt_ipv6: 2001:172:100:100::3
+      mgmt-ipv4: 172.100.100.3      
+      mgmt-ipv6: 2001:172:100:100::3
       env:                          
         LOCAL_AS: 64497
         NEIGHBORS: eth1
@@ -37,24 +37,24 @@ topology:
     attacker:
       kind: linux
       image: sflow/clab-iperf3
-      mgmt_ipv4: 172.100.100.4
-      mgmt_ipv6: 2001:172:100:100::4
+      mgmt-ipv4: 172.100.100.4
+      mgmt-ipv6: 2001:172:100:100::4
       exec:
         - ip addr add 198.51.100.2/24 dev eth1
         - ip route add 192.0.2.0/24 via 198.51.100.1
     victim:
       kind: linux
       image: sflow/clab-iperf3
-      mgmt_ipv4: 172.100.100.5
-      mgmt_ipv6: 2001:172:100:100::5
+      mgmt-ipv4: 172.100.100.5
+      mgmt-ipv6: 2001:172:100:100::5
       exec:
         - ip addr add 192.0.2.129/24 dev eth1
         - ip route add 198.51.100.0/24 via 192.0.2.1
     controller:
       kind: linux
       image: sflow/ddos-protect
-      mgmt_ipv4: 172.100.100.6
-      mgmt_ipv6: 2001:172:100:100::6
+      mgmt-ipv4: 172.100.100.6
+      mgmt-ipv6: 2001:172:100:100::6
       env:
         RTPROP: >
           -Dddos_protect.as=64497
