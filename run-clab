@@ -4,4 +4,4 @@ docker run --rm -it --privileged \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /run/netns:/run/netns \
   -v $(pwd):$(pwd) -w $(pwd) \
-  ghcr.io/srl-labs/clab bash
+  sflow/clab bash
