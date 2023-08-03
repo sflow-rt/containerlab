@@ -13,5 +13,6 @@ LABEL maintainer="InMon Corp. https://inmon.com"
 LABEL description="Multi-architecture CONTAINERlab"
 LABEL url=https://hub.docker.com/r/sflow/clab
 COPY --from=build /containerlab/bin/containerlab /usr/bin/containerlab
-RUN apk add --no-cache bash curl docker-cli git openssh make iptables device-mapper e2fsprogs-extra
+COPY --from=build /containerlab/templates /etc/containerlab/templates
+RUN apk add --no-cache bash curl docker-cli git openssh make iptables device-mapper e2fsprogs-extra python3
 CMD ["/usr/bin/containerlab", "help"]
