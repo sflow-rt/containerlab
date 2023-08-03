@@ -1,3 +1,4 @@
 #!/bin/bash
 docker build -t sflow/clab-frr clab-frr
 docker build -t sflow/clab-iperf3 clab-iperf3
+docker build -t sflow/clab-sflow-rt clab-sflow-rt

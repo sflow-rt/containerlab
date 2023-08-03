@@ -47,7 +47,7 @@ topology:
         - ip route add 172.16.1.0/24 via 172.16.2.1
     sflow-rt:
       kind: linux
-      image: sflow/prometheus
+      image: sflow/clab-sflow-rt
       mgmt-ipv4: 172.100.100.5
       mgmt-ipv6: 2001:172:100:100::5
       ports:
