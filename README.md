@@ -10,6 +10,7 @@ Experiment with real-time network telemetry using [containerlab](https://contain
 * [SR Linux in Containerlab](https://blog.sflow.com/2022/07/sr-linux-in-containerlab.html)
 * [Real-time flow analytics with Containerlab templates](https://blog.sflow.com/2023/02/real-time-flow-analytics-with.html)
 * [Leaf and spine network emulation on Mac OS M1/M2 systems](https://blog.sflow.com/2023/05/leaf-and-spine-network-emulation-on-mac.html)
+* [Containerlab dashboard](https://blog.sflow.com/2023/08/containerlab-dashboard.html)
 
 Get started (on a system running Docker):
 ```
