@@ -4,4 +4,5 @@ docker run --rm -it --privileged \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /run/netns:/run/netns \
   -v $(pwd):$(pwd) -w $(pwd) \
+  --name containerlab \
   sflow/clab bash
