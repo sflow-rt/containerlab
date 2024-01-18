@@ -15,8 +15,7 @@ CONF='/etc/hsflowd.conf'
 
 printf "sflow {\n" > $CONF
 printf " sampling=$SAMPLING\n" >> $CONF
-printf " sampling.1G=$SAMPLING\n" >> $CONF
-printf " sampling.10G=$SAMPLING\n" >> $CONF
+printf " sampling.bps_ratio=0\n" >> $CONF
 printf " polling=$POLLING\n" >> $CONF
 if [ "$COLLECTOR" != "none" ]; then
   printf " collector { ip=$COLLECTOR }\n" >> $CONF

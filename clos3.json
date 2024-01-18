@@ -1,8 +1,0 @@
-{
-  "links": {
-    "link1": { "node1":"leaf1","port1":"eth1","node2":"spine1","port2":"eth1"},
-    "link2": { "node1":"leaf1","port1":"eth2","node2":"spine2","port2":"eth1"},
-    "link3": { "node1":"leaf2","port1":"eth1","node2":"spine1","port2":"eth2"},
-    "link4": { "node1":"leaf2","port1":"eth2","node2":"spine2","port2":"eth2"}
-  }
-}

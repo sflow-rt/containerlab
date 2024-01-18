@@ -3,17 +3,16 @@ mgmt:
   network: fixedips
   ipv4-subnet: 172.100.100.0/24
   ipv6-subnet: 2001:172:100:100::/80
+  mtu: 1500
 topology:
   defaults:
     kind: linux
     env:
-      COLLECTOR: 172.100.100.{{ add $.spines.num $.leaves.num $.leaves.num 2 }}
+      COLLECTOR: sflow-rt
   nodes:
 {{- range $leafIndex := seq 1 $.leaves.num }}
     leaf{{ $leafIndex }}:
         image: sflow/clab-frr
-        mgmt-ipv4: 172.100.100.{{ add $leafIndex 1 }}
-        mgmt-ipv6: 2001:172:100:100::{{ add $leafIndex 1 }}
         env:
             LOCAL_AS: {{ add 65000 $leafIndex }}
             NEIGHBORS:{{- range $spineIndex := seq 1 $.spines.num }} eth{{ $spineIndex}}{{- end }}
@@ -26,8 +25,6 @@ topology:
 {{- range $spineIndex := seq 1 $.spines.num }}
     spine{{ $spineIndex }}:
         image: sflow/clab-frr  
-        mgmt-ipv4: 172.100.100.{{ add $.leaves.num $spineIndex 1 }}      
-        mgmt-ipv6: 2001:172:100:100::{{ add $.leaves.num $spineIndex 1 }}
         env:
             LOCAL_AS: {{ add 65000 $.leaves.num 1 }}
             NEIGHBORS:{{- range $leafIndex := seq 1 $.leaves.num }} eth{{ $leafIndex }}{{- end }}
@@ -37,8 +34,6 @@ topology:
 {{- range $leafIndex := seq 1 $.leaves.num }}
     h{{ $leafIndex }}:   
         image: sflow/clab-iperf3
-        mgmt-ipv4: 172.100.100.{{ add $.spines.num $.leaves.num $leafIndex 1 }}
-        mgmt-ipv6: 2001:172:100:100::{{ add $.spines.num $.leaves.num $leafIndex 1 }}
         exec:
             - ip addr add 172.16.{{ $leafIndex }}.2/24 dev eth1
             - ip route add 172.16.0.0/16 via 172.16.{{ $leafIndex }}.1
@@ -47,8 +42,6 @@ topology:
 {{- end }}
     sflow-rt:
         image: sflow/clab-sflow-rt
-        mgmt-ipv4: 172.100.100.{{ add $.spines.num $.leaves.num $.leaves.num 2 }}
-        mgmt-ipv6: 2001:172:100:100::{{ add $.spines.num $.leaves.num $.leaves.num 2 }}
         ports:
             - 8008:8008
   links:
@@ -59,4 +52,5 @@ topology:
 {{- end }}
 {{- range $leafIndex := seq 1 $.leaves.num }}
     - endpoints: ["leaf{{ $leafIndex }}:eth{{ add $.spines.num 1 }}", "h{{ $leafIndex }}:eth1"]
+      mtu: 1500
 {{- end }}

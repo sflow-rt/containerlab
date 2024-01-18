@@ -3,6 +3,7 @@ mgmt:
   network: fixedips
   ipv4-subnet: 172.100.100.0/24
   ipv6-subnet: 2001:172:100:100::/80
+  mtu: 1500
 topology:
   nodes:
     sp-router:
@@ -89,4 +90,6 @@ topology:
   links:
     - endpoints: ["sp-router:eth1","ce-router:eth1"]
     - endpoints: ["sp-router:eth2","attacker:eth1"]
+      mtu: 1500
     - endpoints: ["ce-router:eth2","victim:eth1"]
+      mtu: 1500

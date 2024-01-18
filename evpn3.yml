@@ -3,17 +3,16 @@ mgmt:
   network: fixedips
   ipv4-subnet: 172.100.100.0/24
   ipv6-subnet: 2001:172:100:100::/80
+  mtu: 1500
 
 topology:
   defaults:
     env:
-      COLLECTOR: 172.100.100.8
+      COLLECTOR: sflow-rt
   nodes:
     leaf1:
       kind: linux
       image: sflow/clab-frr
-      mgmt-ipv4: 172.100.100.2
-      mgmt-ipv6: 2001:172:100:100::2
       env:
         LOCAL_AS: 65001
         NEIGHBORS: eth1 eth2
@@ -25,8 +24,6 @@ topology:
     leaf2:
       kind: linux
       image: sflow/clab-frr
-      mgmt-ipv4: 172.100.100.3
-      mgmt-ipv6: 2001:172:100:100::3
       env:
         LOCAL_AS: 65002
         NEIGHBORS: eth1 eth2
@@ -38,8 +35,6 @@ topology:
     spine1:
       kind: linux
       image: sflow/clab-frr
-      mgmt-ipv4: 172.100.100.4
-      mgmt-ipv6: 2001:172:100:100::4
       env:
         LOCAL_AS: 65003
         NEIGHBORS: eth1 eth2
@@ -49,8 +44,6 @@ topology:
     spine2:
       kind: linux
       image: sflow/clab-frr
-      mgmt-ipv4: 172.100.100.5
-      mgmt-ipv6: 2001:172:100:100::5
       env:
         LOCAL_AS: 65003
         NEIGHBORS: eth1 eth2
@@ -60,19 +53,13 @@ topology:
     h1:
       kind: linux
       image: sflow/clab-iperf3
-      mgmt-ipv4: 172.100.100.6
-      mgmt-ipv6: 2001:172:100:100::6
       exec:
-        - ip link set dev eth1 mtu 1500
         - ip addr add 172.16.10.1/24 dev eth1
         - ip addr add 2001:172:16:10::1/64 dev eth1
     h2:
       kind: linux
       image: sflow/clab-iperf3
-      mgmt-ipv4: 172.100.100.7
-      mgmt-ipv6: 2001:172:100:100::7
       exec:
-        - ip link set dev eth1 mtu 1500
         - ip addr add 172.16.10.2/24 dev eth1
         - ip addr add 2001:172:16:10::2/64 dev eth1
     sflow-rt:
@@ -88,4 +75,6 @@ topology:
     - endpoints: ["leaf2:eth1","spine1:eth2"]
     - endpoints: ["leaf2:eth2","spine2:eth2"]
     - endpoints: ["h1:eth1","leaf1:eth3"]
+      mtu: 1500
     - endpoints: ["h2:eth1","leaf2:eth3"]
+      mtu: 1500
