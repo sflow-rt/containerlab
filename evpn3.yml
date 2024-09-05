@@ -9,6 +9,8 @@ topology:
   defaults:
     env:
       COLLECTOR: sflow-rt
+      SAMPLING: ${SAMPLING:=1000}
+      POLLING: ${POLLING:=30}
   nodes:
     leaf1:
       kind: linux
