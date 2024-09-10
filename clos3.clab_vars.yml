@@ -1,3 +1,6 @@
+sflow:
+  sampling: 1000
+  polling: 30
 spines:
   num: 2
 leaves:

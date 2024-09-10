@@ -9,6 +9,8 @@ topology:
     kind: linux
     env:
       COLLECTOR: sflow-rt
+      SAMPLING: {{ $.sflow.sampling }}
+      POLLING: {{ $.sflow.polling }}
   nodes:
 {{- range $leafIndex := seq 1 $.leaves.num }}
     leaf{{ $leafIndex }}:
