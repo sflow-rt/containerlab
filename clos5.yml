@@ -7,14 +7,15 @@ mgmt:
 
 topology:
   defaults:
+    kind: linux
     env:
       COLLECTOR: sflow-rt
       SAMPLING: ${SAMPLING:=1000}
       POLLING: ${POLLING:=30}
   nodes:
     leaf1:
-      kind: linux
       image: sflow/clab-frr
+      group: leaf
       env:
         LOCAL_AS: 65001
         NEIGHBORS: eth1 eth2
@@ -24,8 +25,8 @@ topology:
       exec:
         - touch /tmp/initialized
     leaf2:
-      kind: linux
       image: sflow/clab-frr
+      group: leaf
       env:
         LOCAL_AS: 65002
         NEIGHBORS: eth1 eth2
@@ -35,8 +36,8 @@ topology:
       exec:
         - touch /tmp/initialized
     leaf3:
-      kind: linux
       image: sflow/clab-frr
+      group: leaf
       env:
         LOCAL_AS: 65003
         NEIGHBORS: eth1 eth2
@@ -46,8 +47,8 @@ topology:
       exec:
         - touch /tmp/initialized
     leaf4:
-      kind: linux
       image: sflow/clab-frr
+      group: leaf
       env:
         LOCAL_AS: 65004
         NEIGHBORS: eth1 eth2
@@ -57,87 +58,86 @@ topology:
       exec:
         - touch /tmp/initialized
     spine1:
-      kind: linux
       image: sflow/clab-frr
+      group: spine
       env:
         LOCAL_AS: 65005
         NEIGHBORS: eth1 eth2 eth3
       exec:
         - touch /tmp/initialized
     spine2:
-      kind: linux
       image: sflow/clab-frr
+      group: spine
       env:
         LOCAL_AS: 65005
         NEIGHBORS: eth1 eth2 eth3
       exec:
         - touch /tmp/initialized
     spine3:
-      kind: linux
       image: sflow/clab-frr
+      group: spine
       env:
         LOCAL_AS: 65006
         NEIGHBORS: eth1 eth2 eth3
       exec:
         - touch /tmp/initialized
     spine4:
-      kind: linux
       image: sflow/clab-frr
+      group: spine
       env:
         LOCAL_AS: 65006
         NEIGHBORS: eth1 eth2 eth3
       exec:
         - touch /tmp/initialized
     superspine1:
-      kind: linux
       image: sflow/clab-frr
+      group: superspine
       env:
         LOCAL_AS: 65007
         NEIGHBORS: eth1 eth2
       exec:
         - touch /tmp/initialized
     superspine2:
-      kind: linux
       image: sflow/clab-frr
+      group: superspine
       env:
         LOCAL_AS: 65007
         NEIGHBORS: eth1 eth2
       exec:
         - touch /tmp/initialized 
     h1:
-      kind: linux
       image: sflow/clab-iperf3
+      group: server
       exec:
         - ip addr add 172.16.1.2/24 dev eth1
         - ip route add 172.16.0.0/16 via 172.16.1.1
         - ip addr add 2001:172:16:1::2/64 dev eth1
         - ip route add 2001:172:16::/48 via 2001:172:16:1::1
     h2:
-      kind: linux
       image: sflow/clab-iperf3
+      group: server
       exec:
         - ip addr add 172.16.2.2/24 dev eth1
         - ip route add 172.16.0.0/16 via 172.16.2.1
         - ip addr add 2001:172:16:2::2/64 dev eth1
         - ip route add 2001:172:16::/48 via 2001:172:16:2::1
     h3:
-      kind: linux
       image: sflow/clab-iperf3
+      group: server
       exec:
         - ip addr add 172.16.3.2/24 dev eth1
         - ip route add 172.16.0.0/16 via 172.16.3.1
         - ip addr add 2001:172:16:3::2/64 dev eth1
         - ip route add 2001:172:16::/48 via 2001:172:16:3::1
     h4:
-      kind: linux
       image: sflow/clab-iperf3
+      group: server
       exec:
         - ip addr add 172.16.4.2/24 dev eth1
         - ip route add 172.16.0.0/16 via 172.16.4.1
         - ip addr add 2001:172:16:4::2/64 dev eth1
         - ip route add 2001:172:16::/48 via 2001:172:16:4::1
     sflow-rt:
-      kind: linux
       image: sflow/clab-sflow-rt
       ports:
         - 8008:8008

@@ -5,9 +5,10 @@ mgmt:
   ipv6-subnet: 2001:172:100:100::/80
   mtu: 1500
 topology:
+  defaults:
+    kind: linux
   nodes:
     sp-router:
-      kind: linux
       image: sflow/clab-frr
       mgmt-ipv4: 172.100.100.2
       mgmt-ipv6: 2001:172:100:100::2
@@ -21,7 +22,6 @@ topology:
       exec:
         - touch /tmp/initialized
     ce-router:
-      kind: linux
       image: sflow/clab-frr
       mgmt-ipv4: 172.100.100.3      
       mgmt-ipv6: 2001:172:100:100::3
@@ -36,7 +36,6 @@ topology:
       exec:                         
         - touch /tmp/initialized
     attacker:
-      kind: linux
       image: sflow/clab-iperf3
       mgmt-ipv4: 172.100.100.4
       mgmt-ipv6: 2001:172:100:100::4
@@ -44,7 +43,6 @@ topology:
         - ip addr add 198.51.100.2/24 dev eth1
         - ip route add 192.0.2.0/24 via 198.51.100.1
     victim:
-      kind: linux
       image: sflow/clab-iperf3
       mgmt-ipv4: 172.100.100.5
       mgmt-ipv6: 2001:172:100:100::5
@@ -52,7 +50,6 @@ topology:
         - ip addr add 192.0.2.129/24 dev eth1
         - ip route add 198.51.100.0/24 via 192.0.2.1
     controller:
-      kind: linux
       image: sflow/ddos-protect
       mgmt-ipv4: 172.100.100.6
       mgmt-ipv6: 2001:172:100:100::6

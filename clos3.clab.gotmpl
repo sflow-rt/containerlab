@@ -15,6 +15,7 @@ topology:
 {{- range $leafIndex := seq 1 $.leaves.num }}
     leaf{{ $leafIndex }}:
         image: sflow/clab-frr
+        group: leaf
         env:
             LOCAL_AS: {{ add 65000 $leafIndex }}
             NEIGHBORS:{{- range $spineIndex := seq 1 $.spines.num }} eth{{ $spineIndex}}{{- end }}
@@ -26,7 +27,8 @@ topology:
 {{- end }}
 {{- range $spineIndex := seq 1 $.spines.num }}
     spine{{ $spineIndex }}:
-        image: sflow/clab-frr  
+        image: sflow/clab-frr
+        group: spine
         env:
             LOCAL_AS: {{ add 65000 $.leaves.num 1 }}
             NEIGHBORS:{{- range $leafIndex := seq 1 $.leaves.num }} eth{{ $leafIndex }}{{- end }}
@@ -36,6 +38,7 @@ topology:
 {{- range $leafIndex := seq 1 $.leaves.num }}
     h{{ $leafIndex }}:   
         image: sflow/clab-iperf3
+        group: server
         exec:
             - ip addr add 172.16.{{ $leafIndex }}.2/24 dev eth1
             - ip route add 172.16.0.0/16 via 172.16.{{ $leafIndex }}.1

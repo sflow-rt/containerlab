@@ -9,6 +9,7 @@ topology:
       kind: srl
       type: ixr6
       image: ghcr.io/nokia/srlinux
+      group: leaf
       mgmt-ipv4: 172.100.100.2
       mgmt-ipv6: 2001:172:100:100::2
       exec:
@@ -30,6 +31,7 @@ topology:
     h1:
       kind: linux
       image: sflow/clab-iperf3
+      group: server
       mgmt-ipv4: 172.100.100.3
       mgmt-ipv6: 2001:172:100:100::3
       exec:
@@ -39,6 +41,7 @@ topology:
     h2:
       kind: linux
       image: sflow/clab-iperf3
+      group: server
       mgmt-ipv4: 172.100.100.4
       mgmt-ipv6: 2001:172:100:100::4
       exec:
