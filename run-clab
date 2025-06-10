@@ -2,7 +2,8 @@
 docker run --rm -it --privileged \
   --network host --pid="host" \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -v /run/netns:/run/netns \
+  -v /var/run/netns:/var/run/netns \
+  -v /var/lib/docker/containers:/var/lib/docker/containers \
   -v $(pwd):$(pwd) -w $(pwd) \
   --name containerlab \
   sflow/clab bash
