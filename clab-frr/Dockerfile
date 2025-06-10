@@ -1,4 +1,4 @@
-FROM alpine:3.18 as build
+FROM alpine:3.20 AS build
 RUN apk --update add \
       build-base \
       gcc \
@@ -10,16 +10,13 @@ RUN apk --update add \
  && make FEATURES="PCAP" \
  && make install
 
-FROM quay.io/frrouting/frr:9.0.2
+FROM quay.io/frrouting/frr:10.2.3
 LABEL maintainer="InMon Corp. https://inmon.com"
 LABEL description="FRR and Host sFlow agent for CONTAINERlab"
 LABEL url=https://hub.docker.com/r/sflow/clab-frr
 COPY --from=build /usr/sbin/hsflowd /usr/sbin/hsflowd
 COPY --from=build /etc/hsflowd/ /etc/hsflowd/
 RUN apk add --no-cache dmidecode libpcap
-ADD bgpd.conf /etc/frr/
-ADD zebra.conf /etc/frr/
-ADD vtysh.conf /etc/frr/
-ADD daemons /etc/frr/
+ADD frr.conf vtysh.conf daemons /etc/frr/
 ADD start.sh /
 ENTRYPOINT [ "/sbin/tini", "--", "/start.sh" ]
