@@ -17,7 +17,7 @@ topology:
         image: sflow/clab-frr
         group: leaf
         env:
-            LOCAL_AS: {{ add 65000 $leafIndex }}
+            LOCAL_AS: {{ printf "65%03d" $leafIndex }}
             NEIGHBORS:{{- range $spineIndex := seq 1 $.spines.num }} eth{{ $spineIndex}}{{- end }}
             HOSTPORT: eth{{ add $.spines.num 1 }}
             HOSTNET: 172.16.{{ $leafIndex }}.1/24
@@ -30,7 +30,7 @@ topology:
         image: sflow/clab-frr
         group: spine
         env:
-            LOCAL_AS: {{ add 65000 $.leaves.num 1 }}
+            LOCAL_AS: {{ printf "65%03d" (add 1 $.leaves.num) }}
             NEIGHBORS:{{- range $leafIndex := seq 1 $.leaves.num }} eth{{ $leafIndex }}{{- end }}
         exec:
             - touch /tmp/initialized
