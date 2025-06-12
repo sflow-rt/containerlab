@@ -1,0 +1,86 @@
+name: rocev2
+mgmt:
+  network: fixedips
+  ipv4-subnet: 172.100.100.0/24
+  ipv6-subnet: 2001:172:100:100::/80
+  mtu: 1500
+
+topology:
+  defaults:
+    kind: linux
+    env:
+      COLLECTOR: sflow-rt
+      SAMPLING: ${SAMPLING:=100}
+      POLLING: ${POLLING:=10}
+  nodes:
+    leaf1:
+      image: sflow/clab-frr
+      group: leaf
+      env:
+        LOCAL_AS: 65001
+        NEIGHBORS: eth1 eth2
+        HOSTPORT: eth3
+        HOSTNET: "172.16.1.1/24"
+        HOSTNET6: "2001:172:16:1::1/64"
+      exec:
+        - touch /tmp/initialized
+    leaf2:
+      image: sflow/clab-frr
+      group: leaf
+      env:
+        LOCAL_AS: 65002
+        NEIGHBORS: eth1 eth2
+        HOSTPORT: eth3
+        HOSTNET: "172.16.2.1/24"
+        HOSTNET6: "2001:172:16:2::1/64"
+      exec:
+        - touch /tmp/initialized
+    spine1:
+      image: sflow/clab-frr
+      group: spine
+      env:
+        LOCAL_AS: 65003
+        NEIGHBORS: eth1 eth2
+      exec:
+        - touch /tmp/initialized
+    spine2:
+      image: sflow/clab-frr
+      group: spine
+      env:
+        LOCAL_AS: 65003
+        NEIGHBORS: eth1 eth2
+      exec:
+        - touch /tmp/initialized
+    h1:
+      image: sflow/clab-iperf3
+      group: server
+      binds:
+        - ./rocev2.tcl:/rocev2.tcl
+      exec:
+        - ip addr add 172.16.1.2/24 dev eth1
+        - ip route add 172.16.2.0/24 via 172.16.1.1
+        - ip addr add 2001:172:16:1::2/64 dev eth1
+        - ip route add 2001:172:16:2::/64 via 2001:172:16:1::1
+    h2:
+      image: sflow/clab-iperf3
+      group: server
+      binds:                           
+        - ./rocev2.tcl:/rocev2.tcl
+      exec:
+        - ip addr add 172.16.2.2/24 dev eth1
+        - ip route add 172.16.1.0/24 via 172.16.2.1
+        - ip addr add 2001:172:16:2::2/64 dev eth1
+        - ip route add 2001:172:16:1::/64 via 2001:172:16:2::1
+    sflow-rt:
+      image: sflow/ai-metrics
+      ports:
+        - 8008:8008
+  links:
+    - endpoints: ["leaf1:eth1","spine1:eth1"]
+    - endpoints: ["leaf1:eth2","spine2:eth1"]
+    - endpoints: ["leaf2:eth1","spine1:eth2"]
+    - endpoints: ["leaf2:eth2","spine2:eth2"]
+    - endpoints: ["h1:eth1","leaf1:eth3"]
+      mtu: 4200
+    - endpoints: ["h2:eth1","leaf2:eth3"]
+      mtu: 4200

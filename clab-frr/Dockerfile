@@ -7,6 +7,7 @@ RUN apk --update add \
       linux-headers \
  && git clone https://github.com/sflow/host-sflow.git \
  && cd host-sflow \
+ && sed -i 's/#define SFL_INTERNAL_INTERFACE 0x3FFFFFFF/#define SFL_INTERNAL_INTERFACE 0/g' src/sflow/sflow.h \
  && make FEATURES="PCAP" \
  && make install
 
