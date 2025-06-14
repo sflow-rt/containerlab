@@ -12,6 +12,7 @@ Experiment with real-time network telemetry using [containerlab](https://contain
 * [Leaf and spine network emulation on Mac OS M1/M2 systems](https://blog.sflow.com/2023/05/leaf-and-spine-network-emulation-on-mac.html)
 * [Containerlab dashboard](https://blog.sflow.com/2023/08/containerlab-dashboard.html)
 * [Emulating congestion with Containerlab](https://blog.sflow.com/2024/09/emulating-congestion-with-containerlab.html)
+* [AI network performance monitoring using containerlab](https://blog.sflow.com/2025/06/ai-network-performance-monitoring-using.html)
 
 Get started (on a system running Docker):
 ```
@@ -26,6 +27,10 @@ cd containerlab
 Deploy 5 stage Clos topology:
 
 `containerlab deploy -t clos5.yml`
+
+Upload topology to sFlow-RT:
+
+`./topo.py clab-clos5`
 
 Generate traffic between `h1` and `h4`:
 
@@ -42,6 +47,10 @@ Deploy 3 stage Clos topology:
 
 `containerlab deploy -t clos3.yml`
 
+Upload topology to sFlow-RT:
+
+`./topo.py clab-clos3`
+
 Generate traffic between `h1` and `h2`:
 
 `docker exec -it clab-clos3-h1 iperf3 -c 172.16.2.2`
@@ -57,11 +66,33 @@ Deploy EVPN topology:
 
 `containerlab deploy -t evpn3.yml`
 
+Upload topology to sFlow-RT:
+
+`./topo.py clab-evpn3`
+
 Generate traffic between `h1` and `h2`:
 
 `docker exec -it clab-evpn3-h1 iperf3 -c 172.16.10.2`
 
 `docker exec -it clab-evpn3-h1 iperf3 -c 2001:172:16:10::2`
+
+Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
+
+## RoCEv2 Topology
+
+![](clos3.png)
+
+Deploy RoCEv2 toplogy:
+
+`containerlab deploy -t rocev2.yml`
+
+Upload topology to sFlow-RT:
+
+`./topo.py clab-rocev2`
+
+Generate traffic between `h1` and `h2`:
+
+`docker exec -it clab-rocev2-h1 hping3 exec rocev2.tcl 172.16.2.2 10000 500 100`
 
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
 
