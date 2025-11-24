@@ -22,10 +22,10 @@ def is_fabric_link(link):
   return True
 for link in contents['links']:
   rt_link = {
-    'node1': link['a']['node'],
-    'port1': link['a']['interface'],
-    'node2': link['z']['node'],
-    'port2': link['z']['interface']
+    'node1': link['endpoints']['a']['node'],
+    'port1': link['endpoints']['a']['interface'],
+    'node2': link['endpoints']['z']['node'],
+    'port2': link['endpoints']['z']['interface']
   }
   if is_fabric_link(rt_link):
     rt_links['link%i' % link_no] = rt_link
