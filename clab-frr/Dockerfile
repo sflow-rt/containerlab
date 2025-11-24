@@ -2,6 +2,7 @@ FROM alpine:3.20 AS build
 RUN apk --update add \
       build-base \
       gcc \
+      clang \
       git \
       libpcap-dev \
       linux-headers \
