@@ -13,9 +13,9 @@ with open(sys.argv[1] + '/topology-data.json') as f:
 router_image = 'sflow/clab-frr'
 nodes = contents['nodes']
 def is_fabric_link(link):
-  if nodes[link['a']['node']]['image'] != router_image:
+  if nodes[link['endpoints']['a']['node']]['image'] != router_image:
     return False
-  if nodes[link['z']['node']]['image'] != router_image:
+  if nodes[link['endpoints']['z']['node']]['image'] != router_image:
     return False
   return True
 def limit(port):
@@ -23,5 +23,5 @@ def limit(port):
   run(cmd)
 for link in contents['links']:
   if is_fabric_link(link):
-    limit(link['a'])
-    limit(link['z'])
+    limit(link['endpoints']['a'])
+    limit(link['endpoints']['z'])
