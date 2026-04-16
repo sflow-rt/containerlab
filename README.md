@@ -169,3 +169,6 @@ The following scripts are available:
 * topflows.js, topflows.py display the data rate in bytes/second for busiest flows every 5 seconds
 
 [Getting Started](https://sflow-rt.com/intro.php) describes how to explore metrics using browse-flows and browse-metrics applications.
+
+For documentation, tutorials, and community support, visit:
+https://sFlow-RT.com
