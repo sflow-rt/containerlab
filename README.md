@@ -128,7 +128,7 @@ Deploy the development environment topology:
 
 `containerlab deploy -t develop.yml`
 
-Install basic sFlow-RT apps (browse-metrics, browse-flows, containerlab-dashboard):
+Install basic sFlow-RT apps (`browse-metrics`, `browse-flows`, `containerlab-dashboard`):
 
 `./develop/get-basic-apps.sh`
 
@@ -147,6 +147,8 @@ Start sFlow-RT with a script:
 
 `./develop/start.sh -Dscript.file=script/largeflows.js`
 
+[System Properties](https://sflow-rt.com/reference.php#properties) can also by set by editing the `develop/sflow-rt.conf` file.
+
 Generate traffic:
 
 `./develop/generate-traffic.sh`
@@ -155,7 +157,7 @@ Install [Topology](https://sflow-rt.com/topology.php). Note: sFlow-RT needs to b
 
 `./develop/set-topology.sh`
 
-Run a Python script from the python directory. Note: sFlow-RT needs to be running.
+Run a Python script from the `python` directory. Note: sFlow-RT needs to be running.
 
 `./develop/run-python.sh largeflows.py`
 
@@ -164,7 +166,7 @@ Start Python script directly:
 `./develop/python/largeflows.py`
 
 The containerlab container has Python3 with requests module pre-installed making it easy to run these scripts in the window used to run containerlab.
-The start.sh, generate-traffic.sh, run-python.sh, and set-topology.sh scripts can be run in any window.
+The `start.sh`, `generate-traffic.sh`, `run-python.sh`, and `set-topology.sh` scripts can be run in any window.
 
 The following scripts are available:
 
@@ -172,7 +174,7 @@ The following scripts are available:
 * logflows.js, logflows.py log bytes transmitted in each active flow every 10 seconds
 * topflows.js, topflows.py display the data rate in bytes/second for busiest flows every 5 seconds
 
-[Getting Started](https://sflow-rt.com/intro.php) describes how to explore metrics using browse-flows and browse-metrics applications.
+Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) to learn how to explore metrics using `browse-flows` and `browse-metrics` applications.
 
 For documentation, tutorials, and community support, visit:
 https://sFlow-RT.com
