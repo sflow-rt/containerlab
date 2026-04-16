@@ -170,9 +170,9 @@ The `start.sh`, `generate-traffic.sh`, `run-python.sh`, and `set-topology.sh` sc
 
 The following scripts are available:
 
-* largeflows.js, largeflows.py report on the start of a large TCP flow
-* logflows.js, logflows.py log bytes transmitted in each active flow every 10 seconds
-* topflows.js, topflows.py display the data rate in bytes/second for busiest flows every 5 seconds
+* `largeflows.js`, `largeflows.py` report on the start of a large TCP flow
+* `logflows.js`, `logflows.py` log bytes transmitted in each active flow every 10 seconds
+* `topflows.js`, `topflows.py` display the data rate in bytes/second for busiest flows every 5 seconds
 
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) to learn how to explore metrics using `browse-flows` and `browse-metrics` applications.
 
