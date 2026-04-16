@@ -17,7 +17,7 @@ requests.put('http://127.0.0.1:8008/threshold/large-tcp/json',data=json.dumps(th
 
 eventurl = 'http://127.0.0.1:8008/events/json?thresholdID=large-tcp&maxEvents=10&timeout=60'
 eventID = -1
-while 1 == 1:
+while True:
   r = requests.get(eventurl + "&eventID=" + str(eventID))
   if r.status_code != 200: break
   events = r.json()

@@ -14,7 +14,7 @@ requests.put('http://127.0.0.1:8008/flow/tcp/json',data=json.dumps(flow))
 
 flowurl = 'http://127.0.0.1:8008/flows/json?name=tcp&maxFlows=10&timeout=60'
 flowID = -1
-while 1 == 1:
+while True:
   r = requests.get(flowurl + "&flowID=" + str(flowID))
   if r.status_code != 200: break
   flows = r.json()

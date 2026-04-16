@@ -12,7 +12,7 @@ signal.signal(signal.SIGINT, sig_handler)
 flow = {'keys':'ipsource,ipdestination,tcpsourceport,tcpdestinationport', 'value':'bytes'}
 requests.put('http://127.0.0.1:8008/flow/tcp/json',data=json.dumps(flow))
 
-while 1 == 1:
+while True:
   time.sleep(5)
   print(time.asctime())
   r = requests.get('http://127.0.0.1:8008/activeflows/ALL/tcp/json')
