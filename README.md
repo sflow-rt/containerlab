@@ -147,11 +147,16 @@ Start sFlow-RT with a script:
 
 `./develop/start.sh -Dscript.file=script/largeflows.js`
 
-[System Properties](https://sflow-rt.com/reference.php#properties) can also by set by editing the `develop/sflow-rt.conf` file.
+[System Properties](https://sflow-rt.com/reference.php#properties) can also be set by editing the `develop/sflow-rt.conf` file. 
+If running, restart `clab-develop-sflow-rt` container after editing file in order to pick up changes.
 
 Generate traffic:
 
 `./develop/generate-traffic.sh`
+
+Run `iperf3` test `3` times spaced by `10` seconds:
+
+`./develop/generate-traffic.sh 3 10`
 
 Install [Topology](https://sflow-rt.com/topology.php). Note: sFlow-RT needs to be running.
 
