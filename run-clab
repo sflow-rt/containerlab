@@ -1,9 +1,15 @@
 #!/bin/bash
-docker run --rm -it --privileged \
-  --network host --pid="host" \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  -v /var/run/netns:/var/run/netns \
-  -v /var/lib/docker/containers:/var/lib/docker/containers \
-  -v $(pwd):$(pwd) -w $(pwd) \
-  --name containerlab \
-  sflow/clab bash
+if command -v docker >/dev/null 2>&1; then
+  cd `dirname $0`
+  docker run --rm -it --privileged \
+    --network host --pid="host" \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v /var/run/netns:/var/run/netns \
+    -v /var/lib/docker/containers:/var/lib/docker/containers \
+    -v $(pwd):$(pwd) -w $(pwd) \
+    --name containerlab \
+    sflow/clab bash
+  cd - > /dev/null
+else
+  echo "Requires docker"
+fi

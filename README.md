@@ -17,8 +17,7 @@ Experiment with real-time network telemetry using [containerlab](https://contain
 Get started (on a system running Docker):
 ```
 git clone https://github.com/sflow-rt/containerlab.git
-cd containerlab
-./run-clab
+./containerlab/run-clab
 ```
 
 ## 5 Stage Clos Topology
