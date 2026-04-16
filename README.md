@@ -121,3 +121,52 @@ Simulate traffic:
 `docker exec -it clab-srlinux-h1 iperf3 -c 172.16.2.2`
 
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
+
+# sFlow-RT Development Environment
+![](clos3.png)
+
+Deploy the development environment topology:
+
+`containerlab deploy -t develop.yml`
+
+Install basic sFlow-RT apps (browse-metrics, browse-flows, containerlab-dashboard):
+
+`./develop/get-basic-apps.sh`
+
+Install an sFlow-RT application, see [Applications](https://sflow-rt.com/download.php#applications):
+
+`./develop/get-app.sh sflow-rt topology`
+
+Example Javascript and Python programs are included in the develop/script and develop/python directories respectively.
+The scripts are based on examples in [Writing Applications](https://sflow-rt.com/writing_applications.php).
+
+Start sFlow-RT:
+
+`./develop/start.sh`
+
+Start sFlow-RT with a script:
+
+`./develop/start.sh -Dscript.file=script/largeflows.js`
+
+Generate traffic:
+
+`./develop/generate-traffic.sh`
+
+Install [Topology](https://sflow-rt.com/topology.php). sFlow-RT needs to be running.
+
+`./develop/set-topology.sh`
+
+Run a Python script. sFlow-RT needs to be running.
+
+`./develop/python/largeflows.py`
+
+The containerlab container has Python3 with requests module pre-installed making it easy to run these scripts in the window used to run containerlab.
+The start.sh, generate-traffic.sh, and set-topology.sh scripts can be run in any window.
+
+The following scripts are available:
+
+* largeflows.js, largeflows.py report on the start of a large TCP flow
+* logflows.js, logflows.py log bytes transmitted in each active flow every 10 seconds
+* topflows.js, topflows.py display the data rate in bytes/second for busiest flows every 5 seconds
+
+[Getting Started](https://sflow-rt.com/intro.php) describes how to explore metrics using browse-flows and browse-metrics applications.
