@@ -151,16 +151,20 @@ Generate traffic:
 
 `./develop/generate-traffic.sh`
 
-Install [Topology](https://sflow-rt.com/topology.php). sFlow-RT needs to be running.
+Install [Topology](https://sflow-rt.com/topology.php). Note: sFlow-RT needs to be running.
 
 `./develop/set-topology.sh`
 
-Run a Python script. sFlow-RT needs to be running.
+Run a Python script from the python directory. Note: sFlow-RT needs to be running.
+
+`./develop/run-python.sh largeflows.py`
+
+Start Python script directly:
 
 `./develop/python/largeflows.py`
 
 The containerlab container has Python3 with requests module pre-installed making it easy to run these scripts in the window used to run containerlab.
-The start.sh, generate-traffic.sh, and set-topology.sh scripts can be run in any window.
+The start.sh, generate-traffic.sh, run-python.sh, and set-topology.sh scripts can be run in any window.
 
 The following scripts are available:
 
