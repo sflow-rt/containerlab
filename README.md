@@ -21,7 +21,7 @@ git clone https://github.com/sflow-rt/containerlab.git
 ```
 Start a topology:
 ```
-./containerlab deploy -t clos3.yml
+containerlab deploy -t clos3.yml
 ```
 Switches in the topology use [FFRouting](https://docs.frrouting.org/en/latest/index.html) daemon for BGP routing. Access switch CLI, see [vtysh](https://docs.frrouting.org/en/latest/vtysh.html):
 ```
