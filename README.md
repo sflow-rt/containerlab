@@ -19,6 +19,26 @@ Get started (on a system running Docker):
 git clone https://github.com/sflow-rt/containerlab.git
 ./containerlab/run-clab
 ```
+Start a topology:
+```
+./containerlab deploy -t clos3.yml
+```
+Switches in the topology use [FFRouting](https://docs.frrouting.org/en/latest/index.html) daemon for BGP routing. Access switch CLI, see [vtysh](https://docs.frrouting.org/en/latest/vtysh.html):
+```
+docker exec -it clab-clos3-leaf1 vtysh
+```
+Run a command on the switch:
+```
+docker exec -it clab-clos3-leaf1 vtysh -c "show running-config"
+```
+Stop a topology:
+```
+./containerlab destroy -t clos3.yml
+```
+Exit containerlab:
+```
+exit
+```
 
 ## 5 Stage Clos Topology
 ![](clos5.png)
