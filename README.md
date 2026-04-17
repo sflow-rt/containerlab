@@ -33,7 +33,7 @@ docker exec -it clab-clos3-leaf1 vtysh -c "show running-config"
 ```
 Stop a topology:
 ```
-./containerlab destroy -t clos3.yml
+containerlab destroy -t clos3.yml
 ```
 Exit containerlab:
 ```
