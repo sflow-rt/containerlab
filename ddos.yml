@@ -7,6 +7,8 @@ mgmt:
 topology:
   defaults:
     kind: linux
+    exec:
+      - touch /tmp/initialized
   nodes:
     sp-router:
       image: sflow/clab-frr
@@ -19,8 +21,6 @@ topology:
         RTBH: 203.0.113.2
         HOSTPORT: eth2
         HOSTNET: "198.51.100.1/24"
-      exec:
-        - touch /tmp/initialized
     ce-router:
       image: sflow/clab-frr
       mgmt-ipv4: 172.100.100.3      
@@ -33,8 +33,6 @@ topology:
         HOSTNET: "192.0.2.1/24"
         CTLASN: 64497
         COLLECTOR: 172.100.100.6
-      exec:                         
-        - touch /tmp/initialized
     attacker:
       image: sflow/clab-iperf3
       mgmt-ipv4: 172.100.100.4

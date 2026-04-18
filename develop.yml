@@ -12,6 +12,8 @@ topology:
       COLLECTOR: sflow-rt
       SAMPLING: ${SAMPLING:=1000}
       POLLING: ${POLLING:=30}
+    exec:
+      - touch /tmp/initialized
   nodes:
     leaf1:
       image: sflow/clab-frr
@@ -22,8 +24,6 @@ topology:
         HOSTPORT: eth3
         HOSTNET: "172.16.1.1/24"
         HOSTNET6: "2001:172:16:1::1/64"
-      exec:
-        - touch /tmp/initialized
     leaf2:
       image: sflow/clab-frr
       group: leaf
@@ -33,24 +33,18 @@ topology:
         HOSTPORT: eth3
         HOSTNET: "172.16.2.1/24"
         HOSTNET6: "2001:172:16:2::1/64"
-      exec:
-        - touch /tmp/initialized
     spine1:
       image: sflow/clab-frr
       group: spine
       env:
         LOCAL_AS: 65003
         NEIGHBORS: eth1 eth2
-      exec:
-        - touch /tmp/initialized
     spine2:
       image: sflow/clab-frr
       group: spine
       env:
         LOCAL_AS: 65003
         NEIGHBORS: eth1 eth2
-      exec:
-        - touch /tmp/initialized
     h1:
       image: sflow/clab-iperf3
       group: server

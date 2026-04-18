@@ -11,6 +11,8 @@ topology:
       COLLECTOR: sflow-rt
       SAMPLING: {{ $.sflow.sampling }}
       POLLING: {{ $.sflow.polling }}
+    exec:
+      - touch /tmp/initialized
   nodes:
 {{- range $leafIndex := seq 1 $.leaves.num }}
     leaf{{ $leafIndex }}:
@@ -22,8 +24,6 @@ topology:
             HOSTPORT: eth{{ add $.spines.num 1 }}
             HOSTNET: 172.16.{{ $leafIndex }}.1/24
             HOSTNET6: 2001:172:16:{{ $leafIndex }}::1/64
-        exec:
-            - touch /tmp/initialized
 {{- end }}
 {{- range $spineIndex := seq 1 $.spines.num }}
     spine{{ $spineIndex }}:
@@ -32,8 +32,6 @@ topology:
         env:
             LOCAL_AS: {{ printf "65%03d" (add 1 $.leaves.num) }}
             NEIGHBORS:{{- range $leafIndex := seq 1 $.leaves.num }} eth{{ $leafIndex }}{{- end }}
-        exec:
-            - touch /tmp/initialized
 {{- end }}
 {{- range $leafIndex := seq 1 $.leaves.num }}
     h{{ $leafIndex }}:   
