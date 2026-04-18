@@ -44,18 +44,20 @@ exit
 ![](clos5.png)
 
 Deploy 5 stage Clos topology:
-
-`containerlab deploy -t clos5.yml`
-
+```
+containerlab deploy -t clos5.yml
+```
 Upload topology to sFlow-RT:
-
-`./topo.py clab-clos5`
-
+```
+./topo.py clab-clos5
+```
 Generate traffic between `h1` and `h4`:
-
-`docker exec -it clab-clos5-h1 iperf3 -c 172.16.4.2`
-
-`docker exec -it clab-clos5-h1 iperf3 -c 2001:172:16:4::2`
+```
+docker exec -it clab-clos5-h1 iperf3 -c 172.16.4.2
+```
+```
+docker exec -it clab-clos5-h1 iperf3 -c 2001:172:16:4::2
+```
 
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
 
@@ -63,38 +65,40 @@ Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-
 ![](clos3.png)
 
 Deploy 3 stage Clos topology:
-
-`containerlab deploy -t clos3.yml`
-
+```
+containerlab deploy -t clos3.yml
+```
 Upload topology to sFlow-RT:
-
-`./topo.py clab-clos3`
-
+```
+./topo.py clab-clos3
+```
 Generate traffic between `h1` and `h2`:
-
-`docker exec -it clab-clos3-h1 iperf3 -c 172.16.2.2`
-
-`docker exec -it clab-clos3-h1 iperf3 -c 2001:172:16:2::2`
-
+```
+docker exec -it clab-clos3-h1 iperf3 -c 172.16.2.2
+```
+```
+docker exec -it clab-clos3-h1 iperf3 -c 2001:172:16:2::2
+```
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
 
 # EVPN Topology
 <img src="evpn3.png" width="600">
 
 Deploy EVPN topology:
-
-`containerlab deploy -t evpn3.yml`
-
+```
+containerlab deploy -t evpn3.yml
+```
 Upload topology to sFlow-RT:
-
-`./topo.py clab-evpn3`
-
+```
+./topo.py clab-evpn3
+```
 Generate traffic between `h1` and `h2`:
-
-`docker exec -it clab-evpn3-h1 iperf3 -c 172.16.10.2`
-
-`docker exec -it clab-evpn3-h1 iperf3 -c 2001:172:16:10::2`
-
+```
+docker exec -it clab-evpn3-h1 iperf3 -c 172.16.10.2
+```
+```
+docker exec -it clab-evpn3-h1 iperf3 -c 2001:172:16:10::2
+```
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
 
 ## RoCEv2 Topology
@@ -102,94 +106,94 @@ Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-
 ![](clos3.png)
 
 Deploy RoCEv2 toplogy:
-
-`containerlab deploy -t rocev2.yml`
-
+```
+containerlab deploy -t rocev2.yml
+```
 Upload topology to sFlow-RT:
-
-`./topo.py clab-rocev2`
-
+```
+./topo.py clab-rocev2
+```
 Generate traffic between `h1` and `h2`:
-
-`docker exec -it clab-rocev2-h1 hping3 exec rocev2.tcl 172.16.2.2 10000 500 100`
-
+```
+docker exec -it clab-rocev2-h1 hping3 exec rocev2.tcl 172.16.2.2 10000 500 100
+```
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
 
 # DDoS Topology
 ![](ddos.png)
 
 Deploy DDOS topology:
-
-`containerlab deploy -t ddos.yml`
-
+```
+containerlab deploy -t ddos.yml
+```
 Simulate DDoS attack against `victim`:
-
-`docker exec -it clab-ddos-attacker hping3 --flood --udp -k -a 198.51.100.1 -s 53 192.0.2.129`
-
+```
+docker exec -it clab-ddos-attacker hping3 --flood --udp -k -a 198.51.100.1 -s 53 192.0.2.129
+```
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
 
 # Nokia SR Linux
 ![](srlinux.png)
 
 Deploy SR Linux topology:
-
-`containerlab deploy -t srlinux.yml`
-
+```
+containerlab deploy -t srlinux.yml
+```
 Simulate traffic:
-
-`docker exec -it clab-srlinux-h1 iperf3 -c 172.16.2.2`
-
+```
+docker exec -it clab-srlinux-h1 iperf3 -c 172.16.2.2
+```
 Connect to http://localhost:8008/ for analytics, see [Quickstart](https://sflow-rt.com/intro.php) for more information.
 
 # sFlow-RT Development Environment
 ![](clos3.png)
 
 Deploy the development environment topology:
-
-`containerlab deploy -t develop.yml`
-
+```
+containerlab deploy -t develop.yml
+```
 Install basic sFlow-RT apps (`browse-metrics`, `browse-flows`, `containerlab-dashboard`):
-
-`./develop/get-basic-apps.sh`
-
+```
+./develop/get-basic-apps.sh
+```
 Install an sFlow-RT application, see [Applications](https://sflow-rt.com/download.php#applications):
-
-`./develop/get-app.sh sflow-rt topology`
-
+```
+./develop/get-app.sh sflow-rt topology
+```
 Example Javascript and Python programs are included in the develop/script and develop/python directories respectively.
 The scripts are based on examples in [Writing Applications](https://sflow-rt.com/writing_applications.php).
 
 Start sFlow-RT:
-
-`./develop/start.sh`
-
+```
+./develop/start.sh
+```
 Start sFlow-RT with a script:
-
-`./develop/start.sh -Dscript.file=script/largeflows.js`
-
+```
+./develop/start.sh -Dscript.file=script/largeflows.js
+```
 [System Properties](https://sflow-rt.com/reference.php#properties) can also be set by editing the `develop/sflow-rt.conf` file. 
 If running, restart `clab-develop-sflow-rt` container after editing file in order to pick up changes.
 
 Generate traffic:
-
-`./develop/generate-traffic.sh`
-
+```
+./develop/generate-traffic.sh
+```
 Run `iperf3` test `3` times spaced by `10` seconds:
-
-`./develop/generate-traffic.sh 3 10`
-
+```
+./develop/generate-traffic.sh 3 10
+```
 Install [Topology](https://sflow-rt.com/topology.php). Note: sFlow-RT needs to be running.
-
-`./develop/set-topology.sh`
-
+```
+./develop/set-topology.sh
+```
 Run a Python script from the `python` directory. Note: sFlow-RT needs to be running.
-
-`./develop/run-python.sh largeflows.py`
-
+```
+./develop/run-python.sh largeflows.py
+```
 Start Python script directly:
-
-`./develop/python/largeflows.py`
-
+```
+./develop/python/largeflows.py
+```
 The containerlab container has Python3 with requests module pre-installed making it easy to run these scripts in the window used to run containerlab.
 The `start.sh`, `generate-traffic.sh`, `run-python.sh`, and `set-topology.sh` scripts can be run in any window.
 
